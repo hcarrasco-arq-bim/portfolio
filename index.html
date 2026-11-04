@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="es" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hugo Andres Carrasco Ojeda - BIM Manager & VDC Specialist</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0a0e17',
+                            card: '#111827',
+                            accent: '#06b6d4', // Cyan 500
+                            accentHover: '#0891b2',
+                            glow: 'rgba(6, 182, 212, 0.25)',
+                            gold: '#f59e0b',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #0a0e17;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        /* Custom Blueprint / Tech Grid Background */
+        .bg-grid-pattern {
+            background-image: radial-gradient(rgba(6, 182, 212, 0.12) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        .glow-effect {
+            box-shadow: 0 0 25px -5px rgba(6, 182, 212, 0.3);
+        }
+
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(6, 182, 212, 0.4);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0e17;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2937;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06b6d4;
+        }
+
+        /* Pulse Animation */
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(1000%); }
+        }
+        .scanline {
+            animation: scanline 8s linear infinite;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen flex flex-col justify-between selection:bg-brand-accent selection:text-black">
+
+    <!-- NAVIGATION BAR -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-gray-800 transition-all duration-300" id="mainHeader">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Logo / Name Brand -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-brand-accent to-blue-600 flex items-center justify-center font-mono font-bold text-black text-xl group-hover:scale-105 transition-transform shadow-lg shadow-brand-glow">
+                    HC
+                </div>
+                <div>
+                    <span class="block text-white font-bold text-lg leading-tight group-hover:text-brand-accent transition-colors">Hugo Carrasco</span>
+                    <span class="block text-xs text-gray-400 font-mono">BIM & VDC Specialist</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 font-medium text-sm text-gray-300">
+                <a href="#about" class="hover:text-brand-accent transition-colors flex items-center gap-2"><i class="fa-solid fa-user-gear text-xs"></i> <span data-i18n="nav_about">Sobre Mí</span></a>
+                <a href="#portfolio" class="hover:text-brand-accent transition-colors flex items-center gap-2"><i class="fa-solid fa-cubes text-xs"></i> <span data-i18n="nav_portfolio">Portafolio</span></a>
+                <a href="#lab" class="hover:text-brand-accent transition-colors flex items-center gap-2 text-brand-accent"><i class="fa-solid fa-flask-vial text-xs"></i> <span data-i18n="nav_lab">I+D Lab</span></a>
+                <a href="#contact" class="hover:text-brand-accent transition-colors flex items-center gap-2"><i class="fa-solid fa-paper-plane text-xs"></i> <span data-i18n="nav_contact">Contacto</span></a>
+            </nav>
+
+            <!-- Language Switcher & Dev Mode Buttons -->
+            <div class="hidden sm:flex items-center gap-3">
+                <!-- Language Selector Dropdown -->
+                <div class="relative inline-block text-left">
+                    <button id="langDropdownBtn" onclick="toggleLangDropdown()" class="px-3 py-1.5 rounded-lg text-xs font-mono border border-gray-700 bg-gray-900 hover:border-brand-accent text-gray-300 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-globe text-brand-accent"></i>
+                        <span id="currentLangLabel">ES</span>
+                        <i class="fa-solid fa-chevron-down text-[10px] text-gray-400"></i>
+                    </button>
+                    <div id="langDropdown" class="hidden absolute right-0 mt-2 w-28 rounded-xl bg-gray-900 border border-gray-800 shadow-2xl py-1 z-50 font-mono text-xs">
+                        <button onclick="setLanguage('es')" class="w-full text-left px-3 py-2 text-gray-300 hover:bg-gray-800 hover:text-brand-accent flex items-center gap-2">
+                            <span>🇪🇸</span> Español
+                        </button>
+                        <button onclick="setLanguage('en')" class="w-full text-left px-3 py-2 text-gray-300 hover:bg-gray-800 hover:text-brand-accent flex items-center gap-2">
+                            <span>🇬🇧</span> English
+                        </button>
+                        <button onclick="setLanguage('fr')" class="w-full text-left px-3 py-2 text-gray-300 hover:bg-gray-800 hover:text-brand-accent flex items-center gap-2">
+                            <span>🇫🇷</span> Français
+                        </button>
+                    </div>
+                </div>
+
+                <button id="devModeBtn" onclick="toggleDevMode()" class="px-3 py-1.5 rounded-full text-xs font-mono border border-gray-700 bg-gray-900/80 hover:border-brand-accent text-gray-300 transition-all flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-yellow-500 inline-block animate-pulse" id="devStatusDot"></span>
+                    <span id="devBtnText" data-i18n="dev_mode_btn">Modo Propietario</span>
+                    <i class="fa-solid fa-lock text-xs" id="devLockIcon"></i>
+                </button>
+
+                <a href="#contact" class="bg-brand-accent hover:bg-brand-accentHover text-slate-950 px-4 py-2 rounded-lg font-semibold text-sm transition-all shadow-md shadow-brand-glow hover:scale-105" data-i18n="nav_talk">
+                    Hablemos
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button onclick="toggleMobileMenu()" class="md:hidden text-gray-300 text-2xl focus:outline-none p-2" aria-label="Menu">
+                <i class="fa-solid fa-bars" id="menuIcon"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden border-b border-gray-800 bg-gray-950 px-6 py-4 space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-gray-800 font-mono text-xs">
+                <span class="text-gray-400"><i class="fa-solid fa-globe text-brand-accent mr-1"></i> Idioma / Language:</span>
+                <div class="flex gap-2">
+                    <button onclick="setLanguage('es')" class="px-2 py-1 rounded bg-gray-900 border border-gray-800 text-gray-300">ES</button>
+                    <button onclick="setLanguage('en')" class="px-2 py-1 rounded bg-gray-900 border border-gray-800 text-gray-300">EN</button>
+                    <button onclick="setLanguage('fr')" class="px-2 py-1 rounded bg-gray-900 border border-gray-800 text-gray-300">FR</button>
+                </div>
+            </div>
+            <a href="#about" onclick="toggleMobileMenu()" class="block text-gray-300 hover:text-brand-accent py-2"><i class="fa-solid fa-user-gear mr-2"></i> <span data-i18n="nav_about">Sobre Mí</span></a>
+            <a href="#portfolio" onclick="toggleMobileMenu()" class="block text-gray-300 hover:text-brand-accent py-2"><i class="fa-solid fa-cubes mr-2"></i> <span data-i18n="nav_portfolio">Portafolio</span></a>
+            <a href="#lab" onclick="toggleMobileMenu()" class="block text-brand-accent font-semibold py-2"><i class="fa-solid fa-flask-vial mr-2"></i> <span data-i18n="nav_lab">I+D Lab</span></a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="block text-gray-300 hover:text-brand-accent py-2"><i class="fa-solid fa-paper-plane mr-2"></i> <span data-i18n="nav_contact">Contacto</span></a>
+            <div class="pt-2 border-t border-gray-800 flex justify-between items-center">
+                <span class="text-xs text-gray-400 font-mono" data-i18n="dev_mode_label">Modo Propietario:</span>
+                <button onclick="toggleDevMode()" class="px-3 py-1 rounded border border-gray-700 text-xs font-mono text-gray-300" data-i18n="dev_mode_toggle">
+                    Cambiar Vista
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative pt-32 pb-20 md:pt-44 md:pb-32 bg-grid-pattern overflow-hidden">
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-brand-accent/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Hero Left Content -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3 me-2 py-1.5 rounded-full border border-brand-accent/30 bg-brand-accent/10 text-brand-accent text-xs font-mono tracking-wide">
+                        <span class="w-2 h-2 rounded-full bg-brand-accent animate-ping"></span>
+                        <span data-i18n="hero_status">Disponible para Proyectos & Consultoría BIM/VDC</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight">
+                        Hugo Andres <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent via-cyan-300 to-blue-500">
+                            Carrasco Ojeda
+                        </span>
+                    </h1>
+
+                    <p class="text-xl text-gray-300 font-medium" data-i18n="hero_role">
+                        BIM Manager & VDC Specialist
+                    </p>
+
+                    <p class="text-gray-400 text-base sm:text-lg max-w-2xl leading-relaxed mx-auto lg:mx-0" data-i18n="hero_bio">
+                        Transformando arquitecturas e infraestructuras complejas mediante automatización con Dynamo & Python, coordinación bajo estándares ISO 19650 e integración técnica en tiempo real.
+                    </p>
+
+                    <!-- CTAs -->
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-4">
+                        <a href="#portfolio" class="px-6 py-3.5 rounded-xl bg-brand-accent hover:bg-brand-accentHover text-slate-950 font-bold text-sm transition-all shadow-lg shadow-brand-glow flex items-center gap-2 hover:-translate-y-0.5">
+                            <i class="fa-solid fa-diagram-project"></i> <span data-i18n="hero_cta_portfolio">Ver Portafolio</span>
+                        </a>
+                        <a href="#lab" class="px-6 py-3.5 rounded-xl border border-gray-700 bg-gray-900/80 hover:border-brand-accent hover:bg-gray-800 text-white font-semibold text-sm transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-code text-brand-accent"></i> <span data-i18n="hero_cta_lab">Explorar I+D Lab</span>
+                        </a>
+                    </div>
+
+                    <!-- Quick Highlights -->
+                    <div class="pt-8 border-t border-gray-800/80 grid grid-cols-3 gap-4 max-w-lg mx-auto lg:mx-0 text-center lg:text-left">
+                        <div>
+                            <span class="block text-2xl font-bold text-white font-mono">13+</span>
+                            <span class="text-xs text-gray-400" data-i18n="stat_exp">Años de Experiencia</span>
+                        </div>
+                        <div>
+                            <span class="block text-2xl font-bold text-brand-accent font-mono">350k+ m²</span>
+                            <span class="text-xs text-gray-400" data-i18n="stat_projects">Hospitales & Complejos</span>
+                        </div>
+                        <div>
+                            <span class="block text-2xl font-bold text-white font-mono">100+</span>
+                            <span class="text-xs text-gray-400" data-i18n="stat_scripts">Rutinas & Scripts</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Right Card Simulation -->
+                <div class="lg:col-span-5">
+                    <div class="relative glass-panel rounded-2xl p-6 shadow-2xl border border-gray-800">
+                        <div class="flex items-center justify-between pb-4 border-b border-gray-800 text-xs font-mono text-gray-400">
+                            <span class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-red-500/80 inline-block"></span>
+                                <span class="w-3 h-3 rounded-full bg-yellow-500/80 inline-block"></span>
+                                <span class="w-3 h-3 rounded-full bg-green-500/80 inline-block"></span>
+                            </span>
+                            <span>bim_coordination_hub.py</span>
+                        </div>
+
+                        <div class="py-6 space-y-4 font-mono text-xs text-gray-300">
+                            <p class="text-emerald-400"># BIM Automation Engine initialized</p>
+                            <p><span class="text-purple-400">import</span> revit_api, dynamo, solibri_checker</p>
+                            <div class="p-3 bg-gray-950/80 rounded border border-gray-800 text-gray-300 space-y-1">
+                                <p class="text-gray-400">> ISO 19650 Compliance Check: <span class="text-emerald-400">PASSED</span></p>
+                                <p class="text-gray-400">> Clash Detection Iteration: <span class="text-brand-accent">98.4% Clean</span></p>
+                                <p class="text-gray-400">> Automated Space Audit: <span class="text-brand-accent">1,240 Rooms Verified</span></p>
+                            </div>
+                            
+                            <!-- Graphic Element representing BIM Matrix -->
+                            <div class="mt-4 pt-4 border-t border-gray-800/80 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="p-2 rounded bg-brand-accent/20 text-brand-accent">
+                                        <i class="fa-solid fa-cube text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-white text-xs font-semibold">Integración BIM / VDC</div>
+                                        <div class="text-[10px] text-gray-400">Revit + Navisworks + Python</div>
+                                    </div>
+                                </div>
+                                <span class="text-xs px-2 py-1 bg-green-500/10 text-green-400 rounded border border-green-500/20">Optimizado</span>
+                            </div>
+                        </div>
+
+                        <!-- Corner Tech Decoration -->
+                        <div class="absolute -bottom-3 -right-3 w-16 h-16 border-r-2 border-b-2 border-brand-accent rounded-br-lg pointer-events-none opacity-50"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT ME SECTION -->
+    <section id="about" class="py-20 bg-gray-950 border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brand-accent font-mono text-xs uppercase tracking-widest block mb-2">// Trayectoria Profesional</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white tracking-tight">Experiencia, Calidad & Liderazgo BIM</h2>
+                <div class="w-16 h-1 bg-brand-accent mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                
+                <!-- Left Bio text -->
+                <div class="lg:col-span-7 space-y-6 text-gray-300 leading-relaxed">
+                    <p class="text-lg">
+                        Con más de <strong class="text-white">13 años de trayectoria</strong> en el sector de la Arquitectura, Ingeniería y Construcción (AEC), he enfocado mi carrera en liderar la gestión BIM y VDC para proyectos de alta complejidad técnica y hospitalaria.
+                    </p>
+                    <p>
+                        Mi especialidad abarca desde la estructuración de Entornos Comunes de Datos (CDE) e implementación rigurosa del estándar <strong class="text-white">ISO 19650</strong>, hasta el desarrollo de flujos de trabajo automatizados que optimizan la coordinación multidisciplinaria y eliminan cuellos de botella operacionales.
+                    </p>
+                    <p>
+                        Entiendo la metodología BIM no solo como modelado 3D, sino como un motor de información estratégica para el control de programación de espacios, estimación de costos y aseguramiento de calidad (QA/QC) previo a la ejecución en obra.
+                    </p>
+
+                    <!-- Key Pillars -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                        <div class="p-4 rounded-xl bg-gray-900 border border-gray-800 flex items-start gap-3">
+                            <i class="fa-solid fa-hospital text-brand-accent text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Infraestructura Hospitalaria</h4>
+                                <p class="text-xs text-gray-400 mt-1">Coordinación de arquitectura e instalaciones biomédicas complejas.</p>
+                            </div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-gray-900 border border-gray-800 flex items-start gap-3">
+                            <i class="fa-solid fa-gears text-brand-accent text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Automatización I+D</h4>
+                                <p class="text-xs text-gray-400 mt-1">Creación de algoritmos en Dynamo y Python para auditorías automatizadas.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Tech Stack & Skills -->
+                <div class="lg:col-span-5 bg-gray-900/60 rounded-2xl p-6 border border-gray-800 space-y-6">
+                    <h3 class="text-lg font-bold text-white border-b border-gray-800 pb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-microchip text-brand-accent"></i> Core Competencies & Software
+                    </h3>
+
+                    <!-- Skills Pills -->
+                    <div>
+                        <span class="text-xs font-mono text-gray-400 block mb-3">SOFTWARE & HERRAMIENTAS:</span>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1.5 rounded-lg bg-gray-800 border border-gray-700 text-xs font-medium text-white flex items-center gap-1.5">
+                                <i class="fa-solid fa-layer-group text-blue-400"></i> Autodesk Revit
+                            </span>
+                            <span class="px-3 py-1.5 rounded-lg bg-gray-800 border border-gray-700 text-xs font-medium text-white flex items-center gap-1.5">
+                                <i class="fa-solid fa-[#FF9900] fa-sitemap text-orange-400"></i> Navisworks Manage
+                            </span>
+                            <span class="px-3 py-1.5 rounded-lg bg-gray-800 border border-gray-700 text-xs font-medium text-white flex items-center gap-1.5">
+                                <i class="fa-solid fa-shield-halved text-cyan-400"></i> Solibri Model Checker
+                            </span>
+                            <span class="px-3 py-1.5 rounded-lg bg-gray-800 border border-gray-700 text-xs font-medium text-white flex items-center gap-1.5">
+                                <i class="fa-solid fa-[#00A8E8] fa-bolt text-yellow-400"></i> Dynamo Studio
+                            </span>
+                            <span class="px-3 py-1.5 rounded-lg bg-gray-800 border border-gray-700 text-xs font-medium text-white flex items-center gap-1.5">
+                                <i class="fa-brands fa-python text-emerald-400"></i> Python (pyRevit)
+                            </span>
+                            <span class="px-3 py-1.5 rounded-lg bg-gray-800 border border-gray-700 text-xs font-medium text-white flex items-center gap-1.5">
+                                <i class="fa-solid fa-cloud text-indigo-400"></i> BIM 360 / ACC
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Methodology & Standards -->
+                    <div>
+                        <span class="text-xs font-mono text-gray-400 block mb-3">METODOLOGÍAS & ESTÁNDARES:</span>
+                        <div class="space-y-3 text-xs">
+                            <div>
+                                <div class="flex justify-between text-gray-300 font-medium mb-1">
+                                    <span>Gestión Estándar ISO 19650 (BEP / EIR / CDE)</span>
+                                    <span class="text-brand-accent font-mono">100%</span>
+                                </div>
+                                <div class="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+                                    <div class="h-full bg-brand-accent rounded-full" style="width: 100%"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-gray-300 font-medium mb-1">
+                                    <span>Coordinación Multidisciplinaria & Clash Detection</span>
+                                    <span class="text-brand-accent font-mono">95%</span>
+                                </div>
+                                <div class="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+                                    <div class="h-full bg-brand-accent rounded-full" style="width: 95%"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-gray-300 font-medium mb-1">
+                                    <span>Programación Técnica & Scripting (Dynamo / Python)</span>
+                                    <span class="text-brand-accent font-mono">90%</span>
+                                </div>
+                                <div class="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+                                    <div class="h-full bg-brand-accent rounded-full" style="width: 90%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PORTFOLIO SHOWCASE SECTION -->
+    <section id="portfolio" class="py-20 bg-brand-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <span class="text-brand-accent font-mono text-xs uppercase tracking-widest block mb-2">// Proyectos Destacados</span>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-white tracking-tight">Portafolio de Coordinación & VDC</h2>
+                </div>
+
+                <!-- Category Filters -->
+                <div class="flex flex-wrap gap-2 mt-6 md:mt-0 font-mono text-xs">
+                    <button onclick="filterProjects('all')" class="project-filter-btn active px-4 py-2 rounded-lg bg-brand-accent text-slate-950 font-semibold transition-all">
+                        Todos
+                    </button>
+                    <button onclick="filterProjects('healthcare')" class="project-filter-btn px-4 py-2 rounded-lg bg-gray-900 border border-gray-800 hover:border-brand-accent text-gray-300 transition-all">
+                        Salud / Hospitales
+                    </button>
+                    <button onclick="filterProjects('infrastructure')" class="project-filter-btn px-4 py-2 rounded-lg bg-gray-900 border border-gray-800 hover:border-brand-accent text-gray-300 transition-all">
+                        Infraestructura
+                    </button>
+                    <button onclick="filterProjects('educational')" class="project-filter-btn px-4 py-2 rounded-lg bg-gray-900 border border-gray-800 hover:border-brand-accent text-gray-300 transition-all">
+                        Educacional / Complejos
+                    </button>
+                </div>
+            </div>
+
+            <!-- Projects Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projectsGrid">
+                
+                <!-- Project Card 1: Healthcare Complex -->
+                <div class="project-card glass-panel rounded-2xl overflow-hidden group hover:-translate-y-1 transition-all duration-300 border border-gray-800" data-category="healthcare">
+                    <div class="relative h-56 overflow-hidden bg-gray-900">
+                        <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=800&q=80" 
+                             alt="Hospital de Alta Complejidad" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-100"
+                             onerror="this.src='https://placehold.co/800x600/111827/06b6d4?text=Complejo+Hospitalario+BIM'">
+                        <div class="absolute top-3 left-3 px-2.5 py-1 rounded bg-brand-dark/90 border border-brand-accent/40 text-brand-accent text-xs font-mono font-semibold">
+                            Salud / 120.000 m²
+                        </div>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <h3 class="text-xl font-bold text-white group-hover:text-brand-accent transition-colors">
+                            Complejo Hospitalario Regional
+                        </h3>
+                        <p class="text-xs text-gray-400 line-clamp-2">
+                            Liderazgo de coordinación BIM multidisciplinaria (Arquitectura, MEP, Estructura) e integración de programación médica con Revit y Solibri.
+                        </p>
+                        
+                        <!-- Metrics Badges -->
+                        <div class="grid grid-cols-2 gap-2 pt-2 text-center text-xs font-mono">
+                            <div class="p-2 rounded bg-gray-950 border border-gray-800">
+                                <span class="block text-brand-accent font-bold">-85%</span>
+                                <span class="text-[10px] text-gray-400">Interferencias en Obra</span>
+                            </div>
+                            <div class="p-2 rounded bg-gray-950 border border-gray-800">
+                                <span class="block text-white font-bold">ISO 19650</span>
+                                <span class="text-[10px] text-gray-400">Estándar Aplicado</span>
+                            </div>
+                        </div>
+
+                        <button onclick="openProjectModal(1)" class="w-full py-2.5 rounded-lg border border-gray-700 hover:border-brand-accent text-xs font-semibold text-gray-300 hover:text-white transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-expand"></i> Ver Detalles del Proyecto
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Project Card 2: Educational Complex -->
+                <div class="project-card glass-panel rounded-2xl overflow-hidden group hover:-translate-y-1 transition-all duration-300 border border-gray-800" data-category="educational">
+                    <div class="relative h-56 overflow-hidden bg-gray-900">
+                        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80" 
+                             alt="Campus Universitario" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-100"
+                             onerror="this.src='https://placehold.co/800x600/111827/06b6d4?text=Campus+Universitario'">
+                        <div class="absolute top-3 left-3 px-2.5 py-1 rounded bg-brand-dark/90 border border-brand-accent/40 text-brand-accent text-xs font-mono font-semibold">
+                            Educacional / 45.000 m²
+                        </div>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <h3 class="text-xl font-bold text-white group-hover:text-brand-accent transition-colors">
+                            Campus Técnico Universitario
+                        </h3>
+                        <p class="text-xs text-gray-400 line-clamp-2">
+                            Implementación de flujo de trabajo VDC con auditoría automatizada de áreas y exportación directa de cómputos métricos a presupuestos.
+                        </p>
+                        
+                        <div class="grid grid-cols-2 gap-2 pt-2 text-center text-xs font-mono">
+                            <div class="p-2 rounded bg-gray-950 border border-gray-800">
+                                <span class="block text-brand-accent font-bold">4D & 5D</span>
+                                <span class="text-[10px] text-gray-400">Planificación Temporal</span>
+                            </div>
+                            <div class="p-2 rounded bg-gray-950 border border-gray-800">
+                                <span class="block text-white font-bold">Automated</span>
+                                <span class="text-[10px] text-gray-400">QTO por Dynamo</span>
+                            </div>
+                        </div>
+
+                        <button onclick="openProjectModal(2)" class="w-full py-2.5 rounded-lg border border-gray-700 hover:border-brand-accent text-xs font-semibold text-gray-300 hover:text-white transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-expand"></i> Ver Detalles del Proyecto
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Project Card 3: Urban Infrastructure -->
+                <div class="project-card glass-panel rounded-2xl overflow-hidden group hover:-translate-y-1 transition-all duration-300 border border-gray-800" data-category="infrastructure">
+                    <div class="relative h-56 overflow-hidden bg-gray-900">
+                        <img src="https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=800&q=80" 
+                             alt="Infraestructura Urbana" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-100"
+                             onerror="this.src='https://placehold.co/800x600/111827/06b6d4?text=Infraestructura+Urbana'">
+                        <div class="absolute top-3 left-3 px-2.5 py-1 rounded bg-brand-dark/90 border border-brand-accent/40 text-brand-accent text-xs font-mono font-semibold">
+                            Infraestructura / InfraBIM
+                        </div>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <h3 class="text-xl font-bold text-white group-hover:text-brand-accent transition-colors">
+                            Centro de Transbordo Intermodal
+                        </h3>
+                        <p class="text-xs text-gray-400 line-clamp-2">
+                            Coordinación de infraestructura civil y arquitectura con plataformas colaborativas en nube (ACC / CDE) para sincronización de contratistas.
+                        </p>
+                        
+                        <div class="grid grid-cols-2 gap-2 pt-2 text-center text-xs font-mono">
+                            <div class="p-2 rounded bg-gray-950 border border-gray-800">
+                                <span class="block text-brand-accent font-bold">100% CDE</span>
+                                <span class="text-[10px] text-gray-400">Entorno Común Datos</span>
+                            </div>
+                            <div class="p-2 rounded bg-gray-950 border border-gray-800">
+                                <span class="block text-white font-bold">Navisworks</span>
+                                <span class="text-[10px] text-gray-400">4D Time Simulation</span>
+                            </div>
+                        </div>
+
+                        <button onclick="openProjectModal(3)" class="w-full py-2.5 rounded-lg border border-gray-700 hover:border-brand-accent text-xs font-semibold text-gray-300 hover:text-white transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-expand"></i> Ver Detalles del Proyecto
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- I+D LAB SECTION (AUTOMATION & WORKFLOWS - 'THE WHAT, NOT THE HOW' STRATEGY) -->
+    <section id="lab" class="py-20 bg-gray-950 border-t border-b border-gray-900 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brand-accent font-mono text-xs uppercase tracking-widest block mb-2">// Laboratorio de Automatización & I+D</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white tracking-tight">Rutinas, Scripts & Flujos de Trabajo</h2>
+                <p class="text-gray-400 text-sm mt-3">
+                    Vista pública de capacidades técnicas y resultados optimizados. Las rutinas internas y código fuente se encuentran bajo restricción de propiedad intelectual.
+                </p>
+                <div class="w-16 h-1 bg-brand-accent mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- Grid of Automation Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Script Item 1 -->
+                <div class="glass-panel rounded-2xl p-6 border border-gray-800 flex flex-col justify-between hover:border-brand-accent/50 transition-all">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2.5 py-1 rounded bg-yellow-500/10 text-yellow-400 border border-yellow-500/30 text-[11px] font-mono font-semibold flex items-center gap-1.5">
+                                <i class="fa-solid fa-bolt"></i> Dynamo + Python
+                            </span>
+                            <span class="text-xs text-gray-500 font-mono"><i class="fa-solid fa-lock text-yellow-500"></i> Código Privado</span>
+                        </div>
+
+                        <h3 class="text-lg font-bold text-white">Validación Automática de Programación Médica</h3>
+                        <p class="text-xs text-gray-400 leading-relaxed">
+                            Script en Dynamo que compara la base de datos de recintos hospitalarios en Excel/SQL directamente contra parámetros de recintos en Revit, auditando áreas y equipamiento en segundos.
+                        </p>
+
+                        <!-- Simulated Output Visual -->
+                        <div class="p-3 bg-gray-950 rounded-lg border border-gray-800 text-xs font-mono space-y-2">
+                            <div class="flex justify-between text-gray-400 border-b border-gray-800 pb-1">
+                                <span>RESULTADO EJECUCIÓN</span>
+                                <span class="text-emerald-400">SUCCESFUL</span>
+                            </div>
+                            <div class="text-[11px] space-y-1 text-gray-300">
+                                <p>• 1,420 Recintos Auditados</p>
+                                <p>• Tiempo promedio manual: <span class="text-red-400 line-through">18 Horas</span></p>
+                                <p>• Tiempo con Rutina: <span class="text-brand-accent font-bold">45 Segundos</span></p>
+                            </div>
+                        </div>
+
+                        <!-- Private Code Overlay Mode toggle container -->
+                        <div class="dev-private-content hidden mt-4 p-3 bg-slate-900 border border-brand-accent/40 rounded text-xs font-mono text-cyan-300">
+                            <p class="text-[10px] text-gray-400 mb-1">// Código Interno (Sustitución de Demo)</p>
+                            <code>doc = DocumentManager.Instance.CurrentDBDocument<br>rooms = FilteredElementCollector(doc).OfCategory(...)</code>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-gray-800/80 mt-6 flex items-center justify-between">
+                        <span class="text-[11px] text-gray-400">Eficiencia +98%</span>
+                        <button onclick="openAccessModal('Validación Automática de Programación Médica')" class="px-3 py-1.5 rounded bg-gray-800 hover:bg-brand-accent hover:text-slate-950 text-white text-xs font-semibold transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-key text-[10px]"></i> Solicitar Metodología
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Script Item 2 -->
+                <div class="glass-panel rounded-2xl p-6 border border-gray-800 flex flex-col justify-between hover:border-brand-accent/50 transition-all">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[11px] font-mono font-semibold flex items-center gap-1.5">
+                                <i class="fa-brands fa-python"></i> pyRevit / C#
+                            </span>
+                            <span class="text-xs text-gray-500 font-mono"><i class="fa-solid fa-lock text-yellow-500"></i> Código Privado</span>
+                        </div>
+
+                        <h3 class="text-lg font-bold text-white">Generador de Planos de Detalle por Lotes</h3>
+                        <p class="text-xs text-gray-400 leading-relaxed">
+                            Herramienta personalizada que genera vistas, cotas automatizadas, llamadas de detalle y aplica plantillas de vista a más de 500 planos con un solo clic.
+                        </p>
+
+                        <!-- Simulated Output Visual -->
+                        <div class="p-3 bg-gray-950 rounded-lg border border-gray-800 text-xs font-mono space-y-2">
+                            <div class="flex justify-between text-gray-400 border-b border-gray-800 pb-1">
+                                <span>LOTE GENERADO</span>
+                                <span class="text-emerald-400">520 SHEETS</span>
+                            </div>
+                            <div class="text-[11px] space-y-1 text-gray-300">
+                                <p>• Nomenclatura ISO 19650 asignada</p>
+                                <p>• Error de duplicado: <span class="text-emerald-400 font-bold">0%</span></p>
+                                <p>• Exportación DWG/PDF automatizada</p>
+                            </div>
+                        </div>
+
+                        <div class="dev-private-content hidden mt-4 p-3 bg-slate-900 border border-brand-accent/40 rounded text-xs font-mono text-cyan-300">
+                            <p class="text-[10px] text-gray-400 mb-1">// Script de automatización de planos</p>
+                            <code>TransactionManager.Instance.EnsureInTransaction(doc)<br>ViewSection.CreateDetail(doc, viewFamilyTypeId...)</code>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-gray-800/80 mt-6 flex items-center justify-between">
+                        <span class="text-[11px] text-gray-400">Eficiencia +90%</span>
+                        <button onclick="openAccessModal('Generador de Planos por Lotes')" class="px-3 py-1.5 rounded bg-gray-800 hover:bg-brand-accent hover:text-slate-950 text-white text-xs font-semibold transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-key text-[10px]"></i> Solicitar Metodología
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Script Item 3 -->
+                <div class="glass-panel rounded-2xl p-6 border border-gray-800 flex flex-col justify-between hover:border-brand-accent/50 transition-all">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2.5 py-1 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-[11px] font-mono font-semibold flex items-center gap-1.5">
+                                <i class="fa-solid fa-shield-halved"></i> Solibri Ruleset + Python
+                            </span>
+                            <span class="text-xs text-gray-500 font-mono"><i class="fa-solid fa-lock text-yellow-500"></i> Código Privado</span>
+                        </div>
+
+                        <h3 class="text-lg font-bold text-white">Matriz de Intersecciones MEP vs Arquitectura</h3>
+                        <p class="text-xs text-gray-400 leading-relaxed">
+                            Matriz de validación avanzada que clasifica automáticamente el impacto de interferencias (Crítico, Medio, Leve) filtrando falsos positivos en trazados de tuberías y ductos.
+                        </p>
+
+                        <!-- Simulated Output Visual -->
+                        <div class="p-3 bg-gray-950 rounded-lg border border-gray-800 text-xs font-mono space-y-2">
+                            <div class="flex justify-between text-gray-400 border-b border-gray-800 pb-1">
+                                <span>REDUCCIÓN DE NOISE</span>
+                                <span class="text-brand-accent font-bold">75% MENOS REVISION</span>
+                            </div>
+                            <div class="text-[11px] space-y-1 text-gray-300">
+                                <p>• Asignación automática de BCF a especialistas</p>
+                                <p>• Sincronización en tiempo real con CDE</p>
+                            </div>
+                        </div>
+
+                        <div class="dev-private-content hidden mt-4 p-3 bg-slate-900 border border-brand-accent/40 rounded text-xs font-mono text-cyan-300">
+                            <p class="text-[10px] text-gray-400 mb-1">// Regla de auditoría Solibri / API</p>
+                            <code>SolibriApi.getClashResults().filterByTolerance(0.05)...</code>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-gray-800/80 mt-6 flex items-center justify-between">
+                        <span class="text-[11px] text-gray-400">Precisión QA/QC</span>
+                        <button onclick="openAccessModal('Matriz de Intersecciones Solibri')" class="px-3 py-1.5 rounded bg-gray-800 hover:bg-brand-accent hover:text-slate-950 text-white text-xs font-semibold transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-key text-[10px]"></i> Solicitar Metodología
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Callout for Dev Mode Banner -->
+            <div class="mt-12 p-6 rounded-2xl bg-gradient-to-r from-gray-900 via-slate-900 to-gray-900 border border-brand-accent/30 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-brand-accent/20 flex items-center justify-center text-brand-accent text-xl flex-shrink-0">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold text-sm">¿Eres el Propietario o Reclutador Autenticado?</h4>
+                        <p class="text-xs text-gray-400">Puedes alternar el "Modo Propietario" en el menú superior para ver la estructura de diagramas de nodos y pseudo-código.</p>
+                    </div>
+                </div>
+                <button onclick="toggleDevMode()" class="px-5 py-2.5 rounded-xl bg-brand-accent text-slate-950 font-bold text-xs hover:bg-brand-accentHover transition-all flex-shrink-0">
+                    Cambiar Vista de Demostración
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CONTENT & FUTURE MEDIA HUB / NEWSLETTER -->
+    <section class="py-16 bg-gray-900 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                
+                <!-- YouTube & Channel Feature Banner -->
+                <div class="lg:col-span-6 space-y-4">
+                    <div class="inline-flex items-center gap-2 text-red-400 text-xs font-mono">
+                        <i class="fa-brands fa-youtube text-lg"></i> Canal de Contenido Técnico BIM & Automatización
+                    </div>
+                    <h3 class="text-2xl font-bold text-white">Próximos Videos & Masterclasses</h3>
+                    <p class="text-xs text-gray-300 leading-relaxed">
+                        Suscríbete para recibir notificación cuando publique nuevos análisis de flujos de trabajo, demostraciones prácticas de rutinas de Dynamo y tutoriales de integración Python en Revit.
+                    </p>
+                    <div class="flex items-center gap-4 pt-2">
+                        <a href="https://linkedin.com" target="_blank" class="px-4 py-2 rounded-lg bg-blue-600/20 text-blue-400 border border-blue-500/30 text-xs font-semibold hover:bg-blue-600 hover:text-white transition-all flex items-center gap-2">
+                            <i class="fa-brands fa-linkedin"></i> LinkedIn
+                        </a>
+                        <a href="https://youtube.com" target="_blank" class="px-4 py-2 rounded-lg bg-red-600/20 text-red-400 border border-red-500/30 text-xs font-semibold hover:bg-red-600 hover:text-white transition-all flex items-center gap-2">
+                            <i class="fa-brands fa-youtube"></i> YouTube Channel
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Newsletter Subscription Form -->
+                <div class="lg:col-span-6 glass-panel rounded-2xl p-6 border border-gray-800">
+                    <form onsubmit="handleSubscribe(event)" class="space-y-4">
+                        <h4 class="text-white font-bold text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-envelope-open-text text-brand-accent"></i> Suscríbete al Boletín de Automatización BIM
+                        </h4>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <input type="email" required placeholder="Tu correo electrónico profesional" 
+                                   class="px-4 py-2.5 rounded-xl bg-gray-950 border border-gray-800 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-brand-accent flex-1">
+                            <button type="submit" class="px-5 py-2.5 rounded-xl bg-brand-accent hover:bg-brand-accentHover text-slate-950 font-bold text-xs transition-all flex items-center justify-center gap-2">
+                                Suscribirme <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                        <p class="text-[10px] text-gray-500">Sin spam. Solo actualizaciones de nuevos scripts y casos de estudio.</p>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="py-20 bg-brand-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                
+                <!-- Contact Info -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div>
+                        <span class="text-brand-accent font-mono text-xs uppercase tracking-widest block mb-2">// Contacto Directo</span>
+                        <h2 class="text-3xl font-bold text-white tracking-tight">Iniciemos una Conversación</h2>
+                        <p class="text-xs text-gray-400 mt-2">
+                            ¿Tienes un proyecto complejo, necesitas auditoría BIM o buscas automatizar flujos de trabajo en tu firma?
+                        </p>
+                    </div>
+
+                    <div class="space-y-4 text-xs">
+                        <div class="flex items-center gap-4 p-4 rounded-xl bg-gray-900 border border-gray-800">
+                            <div class="w-10 h-10 rounded-lg bg-brand-accent/10 text-brand-accent flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <span class="block text-gray-400 text-[10px] font-mono">CORREO ELECTRÓNICO</span>
+                                <a href="mailto:hugo.carrasco@example.com" class="text-white font-semibold hover:text-brand-accent">hugo.carrasco.bim@gmail.com</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4 p-4 rounded-xl bg-gray-900 border border-gray-800">
+                            <div class="w-10 h-10 rounded-lg bg-brand-accent/10 text-brand-accent flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <span class="block text-gray-400 text-[10px] font-mono">DISPONIBILIDAD</span>
+                                <span class="text-white font-semibold">Proyectos Internacionales / Remoto & Presencial</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Icons -->
+                    <div class="pt-4 flex items-center gap-3">
+                        <a href="https://linkedin.com" target="_blank" class="w-10 h-10 rounded-lg bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-300 hover:text-brand-accent hover:border-brand-accent transition-all">
+                            <i class="fa-brands fa-linkedin-in text-base"></i>
+                        </a>
+                        <a href="https://github.com" target="_blank" class="w-10 h-10 rounded-lg bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-300 hover:text-brand-accent hover:border-brand-accent transition-all">
+                            <i class="fa-brands fa-github text-base"></i>
+                        </a>
+                        <a href="https://youtube.com" target="_blank" class="w-10 h-10 rounded-lg bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-300 hover:text-brand-accent hover:border-brand-accent transition-all">
+                            <i class="fa-brands fa-youtube text-base"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="lg:col-span-7 glass-panel rounded-2xl p-8 border border-gray-800">
+                    <form onsubmit="handleContactSubmit(event)" class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs font-mono text-gray-300 mb-2">Nombre Completo *</label>
+                                <input type="text" required placeholder="Ej. Ana Martínez" 
+                                       class="w-full px-4 py-3 rounded-xl bg-gray-950 border border-gray-800 text-xs text-white focus:outline-none focus:border-brand-accent">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-mono text-gray-300 mb-2">Correo Electrónico *</label>
+                                <input type="email" required placeholder="tu.nombre@empresa.com" 
+                                       class="w-full px-4 py-3 rounded-xl bg-gray-950 border border-gray-800 text-xs text-white focus:outline-none focus:border-brand-accent">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-mono text-gray-300 mb-2">Asunto / Tipo de Consulta</label>
+                            <select class="w-full px-4 py-3 rounded-xl bg-gray-950 border border-gray-800 text-xs text-white focus:outline-none focus:border-brand-accent">
+                                <option>Consultoría de Gestión BIM / ISO 19650</option>
+                                <option>Desarrollo de Automatización Dynamo / Python</option>
+                                <option>Coordinación Multidisciplinaria en Hospitales</option>
+                                <option>Oportunidad Laboral / Reclutamiento</option>
+                                <option>Otro</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-mono text-gray-300 mb-2">Mensaje *</label>
+                            <textarea rows="4" required placeholder="Describe brevemente tus requerimientos o consulta..." 
+                                      class="w-full px-4 py-3 rounded-xl bg-gray-950 border border-gray-800 text-xs text-white focus:outline-none focus:border-brand-accent"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-3.5 rounded-xl bg-brand-accent hover:bg-brand-accentHover text-slate-950 font-bold text-sm transition-all shadow-lg shadow-brand-glow">
+                            Enviar Mensaje
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-8 bg-gray-950 border-t border-gray-900 text-center text-xs text-gray-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                © 2026 Hugo Andres Carrasco Ojeda. Todos los derechos reservados.
+            </div>
+            <div class="font-mono text-[10px] text-gray-400">
+                Diseñado para Máxima Eficiencia VDC & BIM
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL 1: PROJECT DETAILS LIGHTBOX -->
+    <div id="projectModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <!-- JAVASCRIPT CONTROLLERS & TRANSLATION ENGINE -->
+    <script>
+        // Multilingual Dictionaries (ES, EN, FR)
+        const i18nData = {
+            es: {
+                nav_about: "Sobre Mí",
+                nav_portfolio: "Portafolio",
+                nav_lab: "I+D Lab",
+                nav_contact: "Contacto",
+                nav_talk: "Hablemos",
+                dev_mode_btn: "Modo Propietario",
+                dev_mode_label: "Modo Propietario:",
+                dev_mode_toggle: "Cambiar Vista",
+                hero_status: "Disponible para Proyectos & Consultoría BIM/VDC",
+                hero_role: "BIM Manager & VDC Specialist",
+                hero_bio: "Transformando arquitecturas e infraestructuras complejas mediante automatización con Dynamo & Python, coordinación bajo estándares ISO 19650 e integración técnica en tiempo real.",
+                hero_cta_portfolio: "Ver Portafolio",
+                hero_cta_lab: "Explorar I+D Lab",
+                stat_exp: "Años de Experiencia",
+                stat_projects: "Hospitales & Complejos",
+                stat_scripts: "Rutinas & Scripts",
+                filter_all: "Todos",
+                filter_healthcare: "Salud / Hospitales",
+                filter_infrastructure: "Infraestructura",
+                filter_educational: "Educacional / Complejos"
+            },
+            en: {
+                nav_about: "About Me",
+                nav_portfolio: "Portfolio",
+                nav_lab: "R&D Lab",
+                nav_contact: "Contact",
+                nav_talk: "Let's Talk",
+                dev_mode_btn: "Owner Mode",
+                dev_mode_label: "Owner Mode:",
+                dev_mode_toggle: "Toggle View",
+                hero_status: "Available for BIM/VDC Projects & Consulting",
+                hero_role: "BIM Manager & VDC Specialist",
+                hero_bio: "Transforming complex architectures and infrastructures through Dynamo & Python automation, ISO 19650 coordination standards, and real-time technical integration.",
+                hero_cta_portfolio: "View Portfolio",
+                hero_cta_lab: "Explore R&D Lab",
+                stat_exp: "Years Experience",
+                stat_projects: "Hospitals & Infrastructure",
+                stat_scripts: "Routines & Scripts",
+                filter_all: "All",
+                filter_healthcare: "Healthcare / Hospitals",
+                filter_infrastructure: "Infrastructure",
+                filter_educational: "Educational / Facilities"
+            },
+            fr: {
+                nav_about: "À Propos",
+                nav_portfolio: "Portfolio",
+                nav_lab: "Lab R&D",
+                nav_contact: "Contact",
+                nav_talk: "Contactez-moi",
+                dev_mode_btn: "Mode Propriétaire",
+                dev_mode_label: "Mode Propriétaire:",
+                dev_mode_toggle: "Changer Vue",
+                hero_status: "Disponible pour Projets & Conseil BIM/VDC",
+                hero_role: "BIM Manager & Spécialiste VDC",
+                hero_bio: "Transformation d'architectures et d'infrastructures complexes grâce à l'automatisation Dynamo & Python, la coordination ISO 19650 et l'intégration technique en temps réel.",
+                hero_cta_portfolio: "Voir le Portfolio",
+                hero_cta_lab: "Explorer le Lab R&D",
+                stat_exp: "Années d'Expérience",
+                stat_projects: "Hôpitaux & Complexe",
+                stat_scripts: "Routines & Scripts",
+                filter_all: "Tous",
+                filter_healthcare: "Santé / Hôpitaux",
+                filter_infrastructure: "Infrastructure",
+                filter_educational: "Éducation / Complexes"
+            }
+        };
+
+        let currentLang = localStorage.getItem('hugo_portfolio_lang') || 'es';
+
+        function setLanguage(lang) {
+            if (!i18nData[lang]) return;
+            currentLang = lang;
+            localStorage.setItem('hugo_portfolio_lang', lang);
+
+            // Update Label
+            document.getElementById('currentLangLabel').textContent = lang.toUpperCase();
+
+            // Translate elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18nData[lang][key]) {
+                    el.textContent = i18nData[lang][key];
+                }
+            });
+
+            // Close dropdown
+            const dropdown = document.getElementById('langDropdown');
+            if (dropdown) dropdown.classList.add('hidden');
+
+            showToast(lang === 'es' ? "Idioma cambiado a Español" : lang === 'en' ? "Language changed to English" : "Langue changée en Français");
+        }
+
+        function toggleLangDropdown() {
+            const dropdown = document.getElementById('langDropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        // Initialize language on load
+        window.addEventListener('DOMContentLoaded', () => {
+            setLanguage(currentLang);
+        });
+
+        // Close language dropdown on outside click
+        window.addEventListener('click', (e) => {
+            const btn = document.getElementById('langDropdownBtn');
+            const dropdown = document.getElementById('langDropdown');
+            if (btn && dropdown && !btn.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+            event.currentTarget.classList.remove('bg-gray-900', 'text-gray-300');
+            event.currentTarget.classList.add('bg-brand-accent', 'text-slate-950', 'font-semibold');
+
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Dev Mode Private Toggle
+        let isDevMode = false;
+        function toggleDevMode() {
+            isDevMode = !isDevMode;
+            const privateContents = document.querySelectorAll('.dev-private-content');
+            const devBtnText = document.getElementById('devBtnText');
+            const devDot = document.getElementById('devStatusDot');
+
+            privateContents.forEach(el => {
+                if (isDevMode) {
+                    el.classList.remove('hidden');
+                } else {
+                    el.classList.add('hidden');
+                }
+            });
+
+            if (isDevMode) {
+                devBtnText.textContent = "Vista Privada Activa";
+                devDot.classList.remove('bg-yellow-500');
+                devDot.classList.add('bg-green-500');
+                showToast("Modo Propietario activado: mostrando pseudo-código interno.");
+            } else {
+                devBtnText.textContent = "Modo Propietario";
+                devDot.classList.remove('bg-green-500');
+                devDot.classList.add('bg-yellow-500');
+                showToast("Modo Público activado.");
+            }
+        }
+
+        // Modals
+        function openProjectModal(id) {
+            const project = projectData[id];
+            if (!project) return;
+
+            const content = document.getElementById('projectModalContent');
+            content.innerHTML = `
+                <div class="relative h-64 sm:h-80 rounded-xl overflow-hidden bg-gray-950">
+                    <img src="${project.image}" class="w-full h-full object-cover" alt="${project.title}">
+                </div>
+                <div>
+                    <span class="text-brand-accent text-xs font-mono font-semibold">${project.category} • ${project.surface}</span>
+                    <h3 class="text-2xl font-bold text-white mt-1">${project.title}</h3>
+                    <p class="text-sm text-gray-300 mt-3 leading-relaxed">${project.description}</p>
+                </div>
+                <div>
+                    <h4 class="text-xs font-mono text-gray-400 uppercase mb-2">Hitos Clave del Proyecto:</h4>
+                    <ul class="space-y-2 text-xs text-gray-300">
+                        ${project.highlights.map(h => `<li class="flex items-start gap-2"><i class="fa-solid fa-check text-brand-accent mt-0.5"></i> ${h}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+            document.getElementById('projectModal').classList.remove('hidden');
+        }
+
+        function closeProjectModal() {
+            document.getElementById('projectModal').classList.add('hidden');
+        }
+
+        function openAccessModal(workflowTitle) {
+            document.getElementById('accessWorkflowTitle').textContent = workflowTitle;
+            document.getElementById('accessModal').classList.remove('hidden');
+        }
+
+        function closeAccessModal() {
+            document.getElementById('accessModal').classList.add('hidden');
+        }
+
+        // Handlers
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            showToast("¡Mensaje enviado con éxito! Te responderé a la brevedad.");
+            e.target.reset();
+        }
+
+        function handleSubscribe(e) {
+            e.preventDefault();
+            showToast("¡Suscripción confirmada al boletín de automatización BIM!");
+            e.target.reset();
+        }
+
+        function handleRequestAccess(e) {
+            e.preventDefault();
+            closeAccessModal();
+            showToast("Solicitud de desglose enviada correctamente.");
+            e.target.reset();
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
